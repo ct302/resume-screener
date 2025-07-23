@@ -4,19 +4,20 @@ import PyPDF2
 import io
 import json
 import re
-# from usage_monitor import UsageMonitor  # Uncomment to track usage
+import os
+from dotenv import load_dotenv
 
-app = FastAPI(title="Resume Screener API - Powered by Gemini", version="1.0.0")
+# Load environment variables
+load_dotenv()
 
-# Configure Gemini with your API key
-genai.configure(api_key="AIzaSyBTUhWLV5oZZ00QwqhCYiIhgY4s5Z-qB34")
+app = FastAPI(title="Resume Screener API", version="1.0.0")
 
-# Initialize usage monitor (uncomment to track API usage and costs)
-# monitor = UsageMonitor()
+# Configure Gemini with API key from environment variable
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
 # Try to initialize the model with fallbacks
 try:
-    # First try the latest free model
+    # First try the latest model
     model = genai.GenerativeModel('gemini-1.5-flash')
     MODEL_NAME = 'gemini-1.5-flash'
 except:
@@ -32,7 +33,7 @@ except:
 @app.get("/")
 def read_root():
     return {
-        "message": "Resume Screener API - Powered by Google Gemini (FREE!)",
+        "message": "Resume Screener API - AI-powered resume analysis",
         "docs": "Visit /docs for interactive API documentation",
         "status": "ready" if model else "error",
         "model": MODEL_NAME
@@ -60,6 +61,16 @@ async def screen_resume(
     file: UploadFile = File(...),
     job_requirements: str = Form("")
 ):
+    """
+    Analyze a resume against job requirements using AI.
+    
+    Args:
+        file: PDF file of the resume
+        job_requirements: Job description or requirements to match against
+    
+    Returns:
+        JSON with score, summary, strengths, concerns, and match percentage
+    """
     if not model:
         return {
             "error": "Model not initialized",
@@ -78,7 +89,7 @@ async def screen_resume(
         # Limit resume text to prevent token issues
         resume_text = resume_text[:3000]
         
-        # The magic prompt for Gemini
+        # Create the analysis prompt
         prompt = f"""
         You are an expert resume screener. Analyze this resume against the job requirements.
         
@@ -104,7 +115,6 @@ async def screen_resume(
         response_text = response.text
         
         # Clean the response - Gemini sometimes adds markdown formatting
-        # Remove ```json and ``` if present
         response_text = response_text.strip()
         if response_text.startswith("```json"):
             response_text = response_text[7:]
@@ -151,6 +161,7 @@ async def screen_resume(
 # Health check endpoint
 @app.get("/health")
 def health_check():
+    """Check if the API and AI model are working properly"""
     if not model:
         return {
             "status": "error",
@@ -175,21 +186,25 @@ def health_check():
             "error": str(e)
         }
 
-@app.get("/usage-info")
-def usage_info():
+@app.get("/api-info")
+def api_info():
+    """Get information about the API and its capabilities"""
     return {
         "api": "Google Gemini",
         "model": MODEL_NAME,
         "model_status": "working" if model else "not initialized",
-        "pricing": "FREE - 60 queries per minute",
-        "daily_limit": "Free tier - generous limits",
-        "cost_per_resume": "$0.00",
-        "profit_margin": "100% - You keep everything!",
-        "tips": [
-            "Gemini 1.5 Flash is completely free for your use case",
-            "60 requests per minute = 3,600 resumes per hour",
-            "No credit card required",
-            "Perfect for testing and scaling",
-            "Check /list-models to see all available models"
-        ]
+        "features": [
+            "PDF resume parsing",
+            "AI-powered analysis",
+            "Job requirement matching",
+            "Strength and concern identification",
+            "Compatibility scoring"
+        ],
+        "endpoints": {
+            "/": "API information",
+            "/docs": "Interactive API documentation",
+            "/health": "Health check",
+            "/screen-resume": "Analyze a resume",
+            "/list-models": "List available AI models"
+        }
     }
