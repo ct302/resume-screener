@@ -1,67 +1,173 @@
-# Resume Screener API - The $2M Playbook
+# Resume Screener API
 
-## 🚀 Start Selling in 48 Hours
+An AI-powered resume screening API built with FastAPI and Google Gemini that intelligently analyzes resumes against job requirements.
 
-### Why This Stack = Fast Money
+## 🌟 Features
 
-1. **Total Cost**: $5/month hosting + $0.00045 per resume after free tier (1,500/day free!)
-2. **Charge**: $0.50-2.00 per resume = 1,100x-4,400x markup
-3. **Break Even**: First customer paying $49/month (you get 1,500 free resumes/day!)
-4. **Profit Margin**: 99.91% even after API costs
+- **PDF Resume Parsing** - Automatically extracts text from PDF resumes
+- **AI-Powered Analysis** - Uses Google Gemini AI to provide intelligent insights
+- **Job Matching** - Compares resumes against specific job requirements
+- **Structured Output** - Returns JSON with scores, strengths, concerns, and match percentage
+- **RESTful API** - Clean, well-documented API endpoints
+- **Fast Performance** - Processes resumes in seconds
 
-### Deploy in 10 Minutes
+## 🛠️ Technology Stack
+
+- **FastAPI** - Modern, fast web framework for building APIs
+- **Google Gemini AI** - Advanced language model for intelligent analysis
+- **PyPDF2** - PDF text extraction
+- **Python 3.8+** - Core programming language
+- **Uvicorn** - Lightning-fast ASGI server
+
+## 📋 Prerequisites
+
+- Python 3.8 or higher
+- Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
+
+## 🚀 Quick Start
+
+### 1. Clone the Repository
 
 ```bash
-# Local testing
-pip install -r requirements.txt
-uvicorn app:app --reload
-
-# Deploy to Railway
-railway login
-railway init
-railway up
+git clone https://github.com/ct302/resume-screener.git
+cd resume-screener
 ```
 
-### Go-To-Market Strategy (Copy the $2M Formula)
+### 2. Set Up Environment
 
-#### Week 1: Launch
-- Post on HN: "I built an API that screens resumes in 2 seconds"
-- Post on r/recruiting: "Tired of reading 500 resumes? I built something"
-- Cold email 50 recruiting agencies with subject: "Screen 100 resumes in 2 minutes?"
+Create a `.env` file in the root directory:
 
-#### Week 2: First Sales
-- Offer "Pay only for what works" trial
-- First 20 resumes free, then $0.50 each
-- Target small recruiting firms (move fast, less bureaucracy)
+```env
+GEMINI_API_KEY=your-gemini-api-key-here
+```
 
-#### Week 3: Scale
-- Add Stripe billing
-- Create Zapier integration
-- Partner with 1 ATS system
+### 3. Install Dependencies
 
-### The Money Math
+```bash
+# Create virtual environment
+python -m venv venv
 
-- 10 customers × $199/month = $2,000 MRR
-- 100 customers × $199/month = $20,000 MRR  
-- 500 customers × $199/month = $100,000 MRR
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On Mac/Linux:
+source venv/bin/activate
 
-**Key Insight**: Recruiting agencies process 1000s of resumes/month. You only need 0.1% market share to hit $1M ARR.
+# Install dependencies
+pip install -r requirements.txt
+```
 
-### Customer Acquisition Hack
+### 4. Run the Application
 
-**"The Trojan Horse"**: Build a free Chrome extension that extracts text from LinkedIn profiles and scores them. Upsell to the API for bulk processing.
+```bash
+# Using the start script
+python start.py
 
-### Why This Will Work
+# Or directly with uvicorn
+uvicorn app:app --reload
+```
 
-1. **Immediate ROI**: Recruiter time = $50-150/hour. You save them hours daily.
-2. **No Behavior Change**: They already screen resumes, you just make it instant
-3. **Sticky Revenue**: Once integrated into their workflow, they won't churn
+The API will be available at `http://localhost:8000`
 
-### Next Features (After $10K MRR)
+## 📖 API Documentation
 
-1. **Bulk Upload**: Process 1000 resumes at once
-2. **ATS Integrations**: Direct plug-ins for Greenhouse, Lever, etc.
-3. **Custom Scoring**: Let companies define their own criteria
-4. **Diversity Insights**: Flag potential bias in requirements
+### Interactive Documentation
 
-Remember: Ship fast, charge early, iterate based on who pays.
+Visit `http://localhost:8000/docs` for interactive API documentation powered by Swagger UI.
+
+### Endpoints
+
+#### `GET /`
+Returns API information and status.
+
+#### `GET /health`
+Health check endpoint for monitoring.
+
+#### `POST /screen-resume`
+Analyzes a resume against job requirements.
+
+**Request:**
+- `file`: PDF file (multipart/form-data)
+- `job_requirements`: Job description text (optional)
+
+**Response:**
+```json
+{
+  "score": 8,
+  "summary": "Experienced full-stack developer with strong Python skills. Good match for the senior developer position.",
+  "strengths": [
+    "5+ years Python experience",
+    "FastAPI and REST API expertise",
+    "Strong cloud deployment knowledge"
+  ],
+  "concerns": [
+    "Limited experience with Rust",
+    "No mention of team leadership"
+  ],
+  "match_percentage": 75
+}
+```
+
+## 🏗️ Architecture
+
+```
+resume-screener/
+├── app.py              # Main application file
+├── app_secure.py       # Secure version with env variables
+├── requirements.txt    # Python dependencies
+├── start.py           # Convenient startup script
+├── usage_monitor.py   # Usage tracking utilities
+├── .env.example       # Environment variables template
+├── .gitignore         # Git ignore rules
+├── Procfile          # Railway deployment config
+└── README.md         # This file
+```
+
+## 🚀 Deployment
+
+### Railway Deployment
+
+This project is configured for easy deployment on Railway:
+
+1. Connect your GitHub repository to Railway
+2. Add `GEMINI_API_KEY` environment variable
+3. Deploy! Railway will auto-detect the Python app
+
+### Other Platforms
+
+The API can be deployed on any platform that supports Python:
+- Heroku
+- Google Cloud Run
+- AWS Lambda
+- DigitalOcean App Platform
+
+## 🔒 Security
+
+- API keys are stored in environment variables
+- `.env` files are excluded from version control
+- Input validation on all endpoints
+- Rate limiting ready (can be configured)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👨‍💻 Author
+
+**Charley Turner** - [GitHub Profile](https://github.com/ct302)
+
+## 🙏 Acknowledgments
+
+- Google Gemini team for the powerful AI model
+- FastAPI for the excellent web framework
+- The open-source community
