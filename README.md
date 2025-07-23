@@ -1,6 +1,14 @@
 # Resume Screener API
 
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://web-production-f004.up.railway.app)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-009688.svg)](https://fastapi.tiangolo.com)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 An AI-powered resume screening API built with FastAPI and Google Gemini that intelligently analyzes resumes against job requirements.
+
+🔗 **Live Demo**: https://web-production-f004.up.railway.app  
+📚 **API Docs**: https://web-production-f004.up.railway.app/docs
 
 ## 🌟 Features
 
@@ -10,6 +18,7 @@ An AI-powered resume screening API built with FastAPI and Google Gemini that int
 - **Structured Output** - Returns JSON with scores, strengths, concerns, and match percentage
 - **RESTful API** - Clean, well-documented API endpoints
 - **Fast Performance** - Processes resumes in seconds
+- **Bulk Processing** - Screen multiple resumes at once
 
 ## 🛠️ Technology Stack
 
@@ -18,13 +27,25 @@ An AI-powered resume screening API built with FastAPI and Google Gemini that int
 - **PyPDF2** - PDF text extraction
 - **Python 3.8+** - Core programming language
 - **Uvicorn** - Lightning-fast ASGI server
+- **Railway** - Cloud deployment platform
+
+## 🚀 Try It Now
+
+Test the live API at: https://web-production-f004.up.railway.app/docs
+
+```bash
+# Quick test with curl
+curl -X POST https://web-production-f004.up.railway.app/screen-resume \
+  -F "file=@your-resume.pdf" \
+  -F "job_requirements=Python developer with FastAPI experience"
+```
 
 ## 📋 Prerequisites
 
 - Python 3.8 or higher
 - Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
 
-## 🚀 Quick Start
+## 💻 Local Development
 
 ### 1. Clone the Repository
 
@@ -73,15 +94,10 @@ The API will be available at `http://localhost:8000`
 
 ### Interactive Documentation
 
-Visit `http://localhost:8000/docs` for interactive API documentation powered by Swagger UI.
+- **Live API Docs**: https://web-production-f004.up.railway.app/docs
+- **Local Docs**: http://localhost:8000/docs
 
-### Endpoints
-
-#### `GET /`
-Returns API information and status.
-
-#### `GET /health`
-Health check endpoint for monitoring.
+### Main Endpoints
 
 #### `POST /screen-resume`
 Analyzes a resume against job requirements.
@@ -108,6 +124,11 @@ Analyzes a resume against job requirements.
 }
 ```
 
+#### `POST /bulk-screen`
+Process multiple resumes at once (up to 10).
+
+See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete endpoint details.
+
 ## 🏗️ Architecture
 
 ```
@@ -120,20 +141,29 @@ resume-screener/
 ├── .env.example       # Environment variables template
 ├── .gitignore         # Git ignore rules
 ├── Procfile          # Railway deployment config
+├── LICENSE            # MIT License
+├── API_DOCUMENTATION.md # Detailed API docs
 └── README.md         # This file
 ```
 
 ## 🚀 Deployment
 
-### Railway Deployment
+### Live Deployment
 
-This project is configured for easy deployment on Railway:
+This API is currently deployed and live at: https://web-production-f004.up.railway.app
 
-1. Connect your GitHub repository to Railway
-2. Add `GEMINI_API_KEY` environment variable
-3. Deploy! Railway will auto-detect the Python app
+### Deploy Your Own Instance
 
-### Other Platforms
+#### Railway (Recommended)
+
+1. Fork this repository
+2. Sign up at [Railway.app](https://railway.app)
+3. Create new project → Deploy from GitHub
+4. Select your forked repository
+5. Add environment variable: `GEMINI_API_KEY`
+6. Deploy! Your API will be live in minutes
+
+#### Other Platforms
 
 The API can be deployed on any platform that supports Python:
 - Heroku
@@ -146,7 +176,8 @@ The API can be deployed on any platform that supports Python:
 - API keys are stored in environment variables
 - `.env` files are excluded from version control
 - Input validation on all endpoints
-- Rate limiting ready (can be configured)
+- HTTPS enforced in production
+- Rate limiting via Google Gemini API (60 req/min)
 
 ## 🤝 Contributing
 
@@ -160,7 +191,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
@@ -170,4 +201,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Google Gemini team for the powerful AI model
 - FastAPI for the excellent web framework
+- Railway for seamless deployment
 - The open-source community
+
+---
+
+⭐ If you find this project useful, please consider giving it a star!
