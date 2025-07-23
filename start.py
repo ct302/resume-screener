@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Quick start script for Resume Screener API
-Run this to start your money-making machine!
+Handles virtual environment setup and launches the server
 """
 
 import subprocess
@@ -25,7 +25,7 @@ def main():
     # Start the server
     print("\n✅ Starting server at http://localhost:8000")
     print("📚 API Documentation at http://localhost:8000/docs")
-    print("\n💡 Tip: Read CHARLES_START_SELLING_NOW.md for instant monetization!")
+    print("\n💡 Visit the /docs endpoint for interactive API testing")
     print("=" * 50)
     
     uvicorn_path = os.path.join("venv", "Scripts", "uvicorn.exe") if os.name == 'nt' else os.path.join("venv", "bin", "uvicorn")
